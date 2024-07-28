@@ -305,7 +305,7 @@
  .signup .btn {
     border: 1px solid white;
     flex-shrink: 0;
-    font-size: 20px;
+    font-size: 15px;
  }
  
  
@@ -382,7 +382,7 @@
  }
  
  
- .modal-btn {
+.modal-btn {
     width: 200px;
     height: 70px;
     background-color: #d8defd;
@@ -391,7 +391,13 @@
     color: white;
     font-weight: 600;
     font-size: 20px;
- }
+    transition: background-color 0.3s ease; /* Smooth transition for the hover effect */
+}
+
+.modal-btn:hover {
+    background-color: #b0b8f0; /* Change to a darker shade on hover */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
  
  
  .close {

@@ -161,8 +161,24 @@ function showPopup(item) {
     }
 
     addToCartBtn.onclick = function() {
-        addToCart(item);
-        modal.style.display = 'none';
+        // Get the full availability text
+        const availabilityText = document.getElementById('modal-availability').textContent.trim().toLowerCase();
+        
+        // Check if the text contains "out of stock"
+        const isAvailable = !availabilityText.includes('out of stock');
+        
+        // Debug statements
+        console.log('Availability Text:', availabilityText); // Check what the text looks like
+        console.log('Is Available:', isAvailable); // Check if the availability status is being determined correctly
+    
+        if (!isAvailable) {
+            alert('Item is out of stock');
+        } else {
+            addToCart(item);
+            modal.style.display = 'none';
+        }
     }
+    
+    
 }
 
