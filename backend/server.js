@@ -31,8 +31,14 @@ const userSchema = new mongoose.Schema({
     email: String
 });
 
+const discountSchema = new mongoose.Schema({
+    code: String,
+    discount: Number
+});
+
 const Item = mongoose.model('Item', itemSchema);
 const User = mongoose.model('User', userSchema);
+const Discount = mongoose.model('Discount', discountSchema);
 
 app.get('/items', async (req, res) => {
     try {
@@ -87,7 +93,6 @@ app.post('/login', async (req, res) => {
     }
 });
 
-
 app.put('/user', async (req, res) => {
     const { token, username, email, password } = req.body;
     try {
@@ -121,6 +126,21 @@ app.post('/cart', async (req, res) => {
     } catch (err) {
         console.error('Failed to update cart:', err);
         res.status(500).send({ error: 'Failed to update cart' });
+    }
+});
+
+app.post('/validate-discount', async (req, res) => {
+    const { code } = req.body;
+    try {
+        const discount = await Discount.findOne({ code });
+        if (discount) {
+            res.json({ valid: true, discount: discount.discount });
+        } else {
+            res.json({ valid: false });
+        }
+    } catch (err) {
+        console.error('Failed to validate discount code:', err);
+        res.status(500).send({ error: 'Failed to validate discount code' });
     }
 });
 

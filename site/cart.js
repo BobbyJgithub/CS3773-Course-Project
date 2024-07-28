@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const subtotalElement = document.getElementById('subtotal');
     const taxElement = document.getElementById('tax');
     const totalElement = document.getElementById('total');
+    const discountElement = document.getElementById('discount'); // Added reference to discount element
     const discountCodeInput = document.getElementById('discount-code');
     const applyDiscountBtn = document.getElementById('apply-discount');
 
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         subtotalElement.textContent = `Subtotal: $${subtotal.toFixed(2)}`;
         taxElement.textContent = `Tax: $${tax.toFixed(2)}`;
         totalElement.textContent = `Total: $${total.toFixed(2)}`;
+        discountElement.style.display = 'none'; // Hide discount line initially
     }
 
     window.removeFromCart = function(itemId) {
@@ -63,21 +65,31 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function applyDiscount(code) {
-        // Example discount application logic
-        let discount = 0;
-        if (code === 'DISCOUNT10') {
-            discount = 0.10; // 10% discount
-        } else if (code === 'DISCOUNT20') {
-            discount = 0.20; // 20% discount
-        }
+        fetch('http://localhost:3000/validate-discount', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ code })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.valid) {
+                const discount = data.discount;
+                const subtotal = parseFloat(subtotalElement.textContent.replace('Subtotal: $', ''));
+                const taxRate = 0.0825;
+                const tax = subtotal * taxRate;
+                const total = subtotal + tax;
+                const discountedTotal = total * (1 - discount);
 
-        const subtotal = parseFloat(subtotalElement.textContent.replace('Subtotal: $', ''));
-        const taxRate = 0.0825;
-        const tax = subtotal * taxRate;
-        const total = subtotal + tax;
-        const discountedTotal = total * (1 - discount);
-
-        totalElement.textContent = `Total: $${discountedTotal.toFixed(2)}`;
+                discountElement.textContent = `Discount: $${(total - discountedTotal).toFixed(2)}`;
+                discountElement.style.display = 'block'; // Show discount line
+                totalElement.textContent = `Total: $${discountedTotal.toFixed(2)}`;
+            } else {
+                alert('Invalid discount code');
+                discountElement.style.display = 'none'; // Hide discount line if invalid
+            }
+        })
+        .catch(error => console.error('Failed to apply discount code:', error));
     }
-
 });
