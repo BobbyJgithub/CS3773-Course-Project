@@ -123,3 +123,54 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
  }
  
+ // Initialize cart
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+function updateCartCount() {
+    const cartCount = document.getElementById('cart-count');
+    cartCount.textContent = cart.reduce((acc, item) => acc + item.quantity, 0);
+}
+
+function addToCart(item) {
+    const existingItem = cart.find(cartItem => cartItem.itemId === item._id);
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        cart.push({ itemId: item._id, quantity: 1 });
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+}
+
+function showPopup(item) {
+    const modal = document.getElementById('popup-modal');
+    const closeBtn = document.getElementsByClassName('close')[0];
+    const addToCartBtn = document.getElementById('add-to-cart');
+
+    document.getElementById('modal-image').src = item.image;
+    document.getElementById('modal-title').textContent = item.name;
+    document.getElementById('modal-description').textContent = item.description;
+    document.getElementById('modal-price').textContent = `Price: $${item.price.toFixed(2)}`;
+    document.getElementById('modal-availability').textContent = `Availability: ${item.availability ? 'In Stock' : 'Out of Stock'}`;
+
+    modal.style.display = 'block';
+
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    addToCartBtn.onclick = function() {
+        addToCart(item);
+        modal.style.display = 'none';
+    }
+}
+
+// Update cart count on page load
+updateCartCount();
+
