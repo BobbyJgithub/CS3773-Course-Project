@@ -126,10 +126,6 @@ document.addEventListener('DOMContentLoaded', async () => {
  // Initialize cart
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-function updateCartCount() {
-    const cartCount = document.getElementById('cart-count');
-    cartCount.textContent = cart.reduce((acc, item) => acc + item.quantity, 0);
-}
 
 function addToCart(item) {
     const existingItem = cart.find(cartItem => cartItem.itemId === item._id);
@@ -139,7 +135,6 @@ function addToCart(item) {
         cart.push({ itemId: item._id, quantity: 1 });
     }
     localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
 }
 
 function showPopup(item) {
@@ -170,7 +165,4 @@ function showPopup(item) {
         modal.style.display = 'none';
     }
 }
-
-// Update cart count on page load
-updateCartCount();
 

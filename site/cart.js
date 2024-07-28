@@ -57,11 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCartCount();
     }
 
-    function updateCartCount() {
-        const cartCount = document.getElementById('cart-count');
-        cartCount.textContent = cart.reduce((acc, item) => acc + item.quantity, 0);
-    }
-
     applyDiscountBtn.onclick = function() {
         const discountCode = discountCodeInput.value;
         applyDiscount(discountCode);
@@ -85,5 +80,4 @@ document.addEventListener('DOMContentLoaded', () => {
         totalElement.textContent = `Total: $${discountedTotal.toFixed(2)}`;
     }
 
-    updateCartCount();
 });

@@ -22,4 +22,6 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     } catch (error) {
         console.error('Failed to login:', error);
     }
+    localStorage.setItem('isLoggedIn', 'true');
+    window.location.href = './index.html'; // Redirect to home page or user page
 });

@@ -87,15 +87,18 @@ app.post('/login', async (req, res) => {
     }
 });
 
+
 app.put('/user', async (req, res) => {
-    const { token, email } = req.body;
+    const { token, username, email, password } = req.body;
     try {
         const decoded = jwt.verify(token, 'your_jwt_secret');
         const user = await User.findById(decoded.userId);
         if (!user) {
             return res.status(404).send({ error: 'User not found' });
         }
-        user.email = email;
+        if (username) user.username = username;
+        if (email) user.email = email;
+        if (password) user.password = await bcrypt.hash(password, 10);
         await user.save();
         res.send(user);
     } catch (err) {
@@ -120,8 +123,6 @@ app.post('/cart', async (req, res) => {
         res.status(500).send({ error: 'Failed to update cart' });
     }
 });
-
-
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
