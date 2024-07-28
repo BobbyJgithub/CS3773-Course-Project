@@ -1,33 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
-    if (!localStorage.getItem('authToken')) {
-        alert('You must be logged in to view this page.');
-        window.location.href = 'index.html';
-        return;
+    const token = localStorage.getItem('token');
+    if (!token) {
+        window.location.href = 'login.html';
     }
 
-    fetchUserProfile();
-});
+    document.getElementById('user-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
 
-async function fetchUserProfile() {
-    try {
-        const response = await fetch('http://localhost:3000/profile', {
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
-        });
+        try {
+            const response = await fetch('http://localhost:3000/user', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ token, email })
+            });
 
-        if (response.ok) {
             const data = await response.json();
-            document.getElementById('user-email').textContent = data.email;
-        } else {
-            const errorData = await response.json();
-            alert(errorData.error || 'Failed to fetch profile');
+            if (response.ok) {
+                alert('Profile updated successfully');
+            } else {
+                alert(data.error);
+            }
+        } catch (error) {
+            console.error('Failed to update profile:', error);
         }
-    } catch (error) {
-        console.error('Failed to fetch profile:', error);
-        alert('Failed to fetch profile');
-    }
-}
-
-function logout() {
-    localStorage.removeItem('authToken');
-    window.location.href = 'index.html';
-}
+    });
+});

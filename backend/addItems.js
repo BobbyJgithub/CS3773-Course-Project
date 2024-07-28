@@ -111,7 +111,7 @@ const items = [
         price: 1.99,
         availability: true,
         image: '../site/images/gummy.png'
-    }
+    },
 
 
 

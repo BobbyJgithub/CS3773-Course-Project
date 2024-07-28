@@ -2,9 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 
 const app = express();
 const port = 3000;
@@ -12,13 +11,9 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(cors());
 
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect('mongodb+srv://bobbyjmain:ikIXV00OR5BuY6NC@cluster0.zuse5zd.mongodb.net/candyshop?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true
-}).then(() => {
-    console.log('Connected to MongoDB');
-}).catch(err => {
-    console.error('Failed to connect to MongoDB', err);
 });
 
 const itemSchema = new mongoose.Schema({
@@ -30,7 +25,14 @@ const itemSchema = new mongoose.Schema({
     image: String
 });
 
+const userSchema = new mongoose.Schema({
+    username: String,
+    password: String,
+    email: String
+});
+
 const Item = mongoose.model('Item', itemSchema);
+const User = mongoose.model('User', userSchema);
 
 app.get('/items', async (req, res) => {
     try {
@@ -53,24 +55,13 @@ app.post('/items', async (req, res) => {
     }
 });
 
-const userSchema = new mongoose.Schema({
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
-});
-
-const User = mongoose.model('User', userSchema);
-
 app.post('/register', async (req, res) => {
-    const { email, password } = req.body;
+    const { username, password, email } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ username, password: hashedPassword, email });
     try {
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).send({ error: 'User already exists' });
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ email, password: hashedPassword });
         await newUser.save();
-        res.status(201).send({ message: 'User registered successfully' });
+        res.status(201).send(newUser);
     } catch (err) {
         console.error('Failed to register user:', err);
         res.status(500).send({ error: 'Failed to register user' });
@@ -78,17 +69,17 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
     try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ username });
         if (!user) {
-            return res.status(400).send({ error: 'Invalid email or password' });
+            return res.status(400).send({ error: 'Invalid username or password' });
         }
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.status(400).send({ error: 'Invalid email or password' });
+            return res.status(400).send({ error: 'Invalid username or password' });
         }
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id }, 'your_jwt_secret');
         res.send({ token });
     } catch (err) {
         console.error('Failed to login user:', err);
@@ -96,36 +87,23 @@ app.post('/login', async (req, res) => {
     }
 });
 
-const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if (token == null) return res.sendStatus(401);
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403);
-        req.user = user;
-        next();
-    });
-};
-
-app.get('/profile', authenticateToken, async (req, res) => {
+app.put('/user', async (req, res) => {
+    const { token, email } = req.body;
     try {
-        const user = await User.findById(req.user.userId);
+        const decoded = jwt.verify(token, 'your_jwt_secret');
+        const user = await User.findById(decoded.userId);
         if (!user) {
             return res.status(404).send({ error: 'User not found' });
         }
-        res.send({ email: user.email });
+        user.email = email;
+        await user.save();
+        res.send(user);
     } catch (err) {
-        console.error('Failed to fetch profile:', err);
-        res.status(500).send({ error: 'Failed to fetch profile' });
+        console.error('Failed to update user:', err);
+        res.status(500).send({ error: 'Failed to update user' });
     }
 });
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
-
-function logout() {
-    localStorage.removeItem('token'); // or sessionStorage.removeItem('token')
-    window.location.href = '/login.html'; // or the appropriate login page
-}
