@@ -18,3 +18,9 @@ This is the implementation of the front-end subsystem for the CS3773 Project.
 ![Alt text](readme_images/6.png)
 
 ![Alt text](readme_images/7.png)
+
+
+<p align="center">
+  Unfortunately, I was unable to meet with my team. I sent a couple of emails out and didn't really get a response. I ended up working on this on my own. 
+  - Bobby James
+</p>
