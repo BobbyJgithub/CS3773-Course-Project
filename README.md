@@ -3,7 +3,7 @@ This is the implementation of the front-end subsystem for the CS3773 Project.
 
 I present to you Yummylicious!
 
-![Alt text](readme_images:user_guide:discussion/1.png)
+![Alt text](readme_images/1.png)
 
 ![Alt text](readme_images:user_guide:discussion/2.png)
 
