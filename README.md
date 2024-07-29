@@ -1,18 +1,20 @@
 # CS3773-Course-Project
 This is the implementation of the front-end subsystem for the CS3773 Project.
 
-I present to you Yummylicious!
+<p align="center">
+  <strong>I present to you Yummylicious!</strong>
+</p>
 
 ![Alt text](readme_images/1.png)
 
-![Alt text](readme_images:user_guide:discussion/2.png)
+![Alt text](readme_images/2.png)
 
-![Alt text](readme_images:user_guide:discussion/3.png)
+![Alt text](readme_images/3.png)
 
-![Alt text](readme_images:user_guide:discussion/4.png)
+![Alt text](readme_images/4.png)
 
-![Alt text](readme_images:user_guide:discussion/5.png)
+![Alt text](readme_images/5.png)
 
-![Alt text](readme_images:user_guide:discussion/6.png)
+![Alt text](readme_images/6.png)
 
-![Alt text](readme_images:user_guide:discussion/7.png)
+![Alt text](readme_images/7.png)
