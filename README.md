@@ -5,6 +5,9 @@ This is the implementation of the front-end subsystem for the CS3773 Project.
   <strong>I present to you Yummylicious!</strong>
 </p>
 
+[![YouTube Video](https://youtu.be/JIPBTEGNfg0/0.jpg)](https://youtu.be/JIPBTEGNfg0)
+
+
 ![Alt text](readme_images/1.png)
 
 ![Alt text](readme_images/2.png)
