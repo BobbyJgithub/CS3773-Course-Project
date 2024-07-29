@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   
     function applyDiscount(code) {
-      fetch('http://localhost:3000/validate-discount', {
+      fetch('http://localhost:3000/discount/validate-discount', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
