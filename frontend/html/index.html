@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Yummylicious</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="header">
+        <a class="logobox" href="./"><img class="logo" src="../images/shop.png" alt="Logo">Yummylicious</a>
+        <div class="links">
+            <a href="./cart.html" class="cart-link">
+                <img id="basket" src="../images/basket.png" alt="Cart" class="cart-icon">
+                <p>Cart</p>
+            </a>
+            <a href="./login.html" id="login-link">Login</a>
+            <a href="./register.html" id="signup-link">Sign Up</a>
+            <a href="./user.html" id="user-icon" class="user-icon" style="display: none;">
+                <div class="user-icon-container">
+                    <img src="../images/profile.png" alt="User" class="user-icon-img">
+                    <span class="user-text">User</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="banner">
+        <div class="title">
+            <h1>Yummylicious</h1>
+            <h2>Where Every Bite is a Delight!</h2>
+        </div>
+        <img class="bannerimg" src="../images/candy.png" alt="banner">
+    </div>
+    <div class="content">
+        <h2>Explore Our Sweet Selection!</h2>
+        <div class="filters">
+            <input class="searchbar" type="text" id="search-bar" placeholder="Search by name or description">
+            <div class="filters-container">
+                <div class="sort-menu">
+                    <label for="sort">Sort by Price:</label>
+                    <select class="select" id="sort">
+                        <option value="default">Default</option>
+                        <option value="low-to-high">Low to High</option>
+                        <option value="high-to-low">High to Low</option>
+                    </select>
+                </div>
+                <label class="soldout-label" for="filter-soldout">
+                    <input type="checkbox" id="filter-soldout"> Hide Sold Out Items
+                </label>
+            </div>
+        </div>
+        <div id="cards-container"></div>
+        <script src="../js/script.js"></script>
+    </div>
+    <div class="quote">
+        <p class="stars">⭐⭐⭐⭐⭐</p>
+        <p>“Step into Yummylicious, and you’ll feel like a kid in a candy wonderland! The colorful displays, the aroma of freshly made fudge, and the friendly staff create an irresistible atmosphere. Whether you’re after classic gummy bears or exotic truffles, this store delivers. And don’t miss their handcrafted lollipops—they’re pure magic!”</p>
+        <p class="name">—Candy Lover123</p>
+    </div>
+    <div class="container">
+        <div class="signup">
+            <div class="text">
+                <h3>Save Your Sweet Cravings!</h3>
+                <p>With an account, you can save your favorite candies to your cart and account holders receive special discount codes and sweet deals!</p>
+            </div>
+            <button class="btn" onclick="window.location.href='register.html'">Sign Up!</button>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Bobby J | <a href="https://www.flaticon.com/packs/sweets-and-candies-24" title="Attributions">Sweets and candies icons created by Freepik - Flaticon</a></p>
+    </div>
+    <div id="popup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-container">
+                <img id="modal-image" src="">
+                <div class="modal-text">
+                    <h2 id="modal-title"></h2>
+                    <p id="modal-description"></p>
+                    <p id="modal-price"></p>
+                    <p id="modal-availability"></p>
+                    <button class="modal-btn" id="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/auth.js"></script>
+</body>
+</html>
