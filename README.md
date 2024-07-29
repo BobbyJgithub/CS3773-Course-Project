@@ -5,7 +5,7 @@ This is the implementation of the front-end subsystem for the CS3773 Project.
   <strong>I present to you Yummylicious!</strong>
 </p>
 
- <iframe width="560" height="315" src="https://www.youtube.com/embed/JIPBTEGNfg0?si=xS41tkYNtEeErPA3" frameborder="0" allowfullscreen></iframe>
+[![YouTube Video](http://img.youtube.com/vi/JIPBTEGNfg0/0.jpg)](http://www.youtube.com/watch?v=JIPBTEGNfg0)
 
 
 ![Alt text](readme_images/1.png)
